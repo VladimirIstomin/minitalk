@@ -26,7 +26,7 @@ OBJS_B_D	= $(addprefix ${OBJ_DIR}, ${SRCS_B:.c=.d})
 
 NAME		= libft.a
 
-HEADER		= libft.h
+HEAD		= libft.h
 
 BONUS		= bonus
 
@@ -42,7 +42,7 @@ all:		${OBJ_DIR} ${NAME}
 ${OBJ_DIR}:
 			mkdir -p ${OBJ_DIR}
 
-${NAME}:	${OBJS} ${HEADER} ${NAME}
+${NAME}:	${OBJS} ${HEAD}
 			ar rcs ${NAME} $?
 
 ${BONUS}:
