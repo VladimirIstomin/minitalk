@@ -6,7 +6,7 @@
 /*   By: gmerlene <gmerlene@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:07:36 by gmerlene          #+#    #+#             */
-/*   Updated: 2021/10/28 16:08:58 by gmerlene         ###   ########.fr       */
+/*   Updated: 2021/10/29 11:55:45 by gmerlene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ static void	sig_handler(int signal, siginfo_t *siginfo, void *context)
 		character = 0;
 		bits_written = 0;
 	}
-	usleep(50);
 	if (kill(siginfo->si_pid, SIGUSR1))
 	{
 		ft_putstr_fd(SIG_ERROR, 1);
