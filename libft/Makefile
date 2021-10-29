@@ -43,7 +43,8 @@ ${OBJ_DIR}:
 			mkdir -p ${OBJ_DIR}
 
 ${NAME}:	${OBJS} ${HEAD}
-			ar rcs ${NAME} $?
+			ar rc ${NAME} $?
+			ranlib ${NAME}
 
 ${BONUS}:
 			@make OBJS='${OBJS} ${OBJS_B}' all

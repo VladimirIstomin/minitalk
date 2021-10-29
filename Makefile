@@ -48,34 +48,34 @@ ${OBJ_DIR}%.o : %.c
 all:		${OBJ_DIR} ${NAME}
 
 ${OBJ_DIR}:
-			mkdir -p ${OBJ_DIR}		
+			@mkdir -p ${OBJ_DIR}		
 
-${UTILS}:	check_libft
+${UTILS}:	FORCE
+			@${MAKE} -C ./libft
 			
-${NAME}:	${SERVER} ${CLIENT}
+${NAME}:	${OBJ_DIR} ${SERVER} ${CLIENT}
 
 ${BONUS}:	
 			@make OBJS_S='${OBJS_B_S}' OBJS_C='${OBJS_B_C}' HEADER='${HEADER_B}' all 
 
-${SERVER}:	${OBJ_DIR} ${UTILS} ${OBJS_S} ${HEADER}
+${SERVER}:	${UTILS} ${OBJS_S} ${HEADER}
 			${CC} ${FLAGS} ${OBJS_S} -lft -L./libft -o ${SERVER}
 
-${CLIENT}:	${OBJ_DIR} ${UTILS} ${OBJS_C} ${HEADER}
+${CLIENT}:	${UTILS} ${OBJS_C} ${HEADER}
 			${CC} ${FLAGS} ${OBJS_C} -lft -L./libft -o ${CLIENT}
 
-check_libft:
-			${MAKE} -C ./libft
+FORCE:	;
 
 clean:
 			rm -rf ${OBJ_DIR}
-			${MAKE} clean -C ./libft
+			@${MAKE} clean -C ./libft
 
 fclean:		clean
 			rm -rf ${SERVER} ${CLIENT}
-			${MAKE} fclean -C ./libft
+			@${MAKE} fclean -C ./libft
 			
 re:			fclean all
 
-.PHONY:		all clean fclean re check_libft
+.PHONY:		all clean fclean re
 
 -include	${OBJS_C_D} ${OBJS_S_D} ${OBJS_B_S_D} ${OBJS_B_C_D}

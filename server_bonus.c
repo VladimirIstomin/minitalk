@@ -6,7 +6,7 @@
 /*   By: gmerlene <gmerlene@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:07:36 by gmerlene          #+#    #+#             */
-/*   Updated: 2021/10/27 20:21:29 by gmerlene         ###   ########.fr       */
+/*   Updated: 2021/10/28 16:08:58 by gmerlene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	sig_handler(int signal, siginfo_t *siginfo, void *context)
 
 	(void)context;
 	if (signal == SIGUSR1)
-		character |= 1 << bits_written;
+		character |= (1 << bits_written);
 	bits_written++;
 	if (bits_written == 8)
 	{
@@ -37,6 +37,7 @@ static void	sig_handler(int signal, siginfo_t *siginfo, void *context)
 		character = 0;
 		bits_written = 0;
 	}
+	usleep(50);
 	if (kill(siginfo->si_pid, SIGUSR1))
 	{
 		ft_putstr_fd(SIG_ERROR, 1);
@@ -46,13 +47,13 @@ static void	sig_handler(int signal, siginfo_t *siginfo, void *context)
 
 int	main(void)
 {
-	struct sigaction	sigac;
+	struct sigaction	sigact;
 
 	create_pid();
-	sigac.sa_flags = SA_SIGINFO;
-	sigac.sa_sigaction = sig_handler;
-	sigaction(SIGUSR1, &sigac, NULL);
-	sigaction(SIGUSR2, &sigac, NULL);
+	sigact.sa_flags = SA_SIGINFO;
+	sigact.sa_sigaction = sig_handler;
+	sigaction(SIGUSR1, &sigact, NULL);
+	sigaction(SIGUSR2, &sigact, NULL);
 	while (1)
 		pause();
 	return (0);

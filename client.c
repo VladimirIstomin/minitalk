@@ -6,7 +6,7 @@
 /*   By: gmerlene <gmerlene@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 15:15:06 by gmerlene          #+#    #+#             */
-/*   Updated: 2021/10/27 16:22:51 by gmerlene         ###   ########.fr       */
+/*   Updated: 2021/10/29 09:25:04 by gmerlene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,28 @@
 static void	sig_handler(int signal)
 {
 	(void)signal;
-	ft_putstr_fd("Signal recieved\n", 1);
 }
 
 static void	send_char(pid_t pid, char c)
 {
-	int		n_bit;
+	int		bits_sent;
+	int		kill_res;
 
-	n_bit = 0;
-	while (n_bit < 8)
+	bits_sent = 0;
+	while (bits_sent < 8)
 	{
-		if (c & (1 << n_bit))
-			kill(pid, SIGUSR1);
+		if (c & (1 << bits_sent))
+			kill_res = kill(pid, SIGUSR1);
 		else
-			kill(pid, SIGUSR2);
-		n_bit++;
+			kill_res = kill(pid, SIGUSR2);
+		if (kill_res)
+		{
+			ft_putstr_fd(SIG_ERROR, 1);
+			exit(0);
+		}
 		pause();
+		usleep(50);
+		bits_sent++;
 	}
 }
 
@@ -49,6 +55,6 @@ int	main(int argc, char **argv)
 		}
 	}
 	else
-		ft_putstr_fd("Error: Incorrect number of arguments!", 1);
+		ft_putstr_fd(ARG_ERROR, 1);
 	return (0);
 }
